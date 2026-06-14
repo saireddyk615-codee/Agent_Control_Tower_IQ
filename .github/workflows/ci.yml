@@ -51,3 +51,6 @@ jobs:
 
       - name: Compile extension
         run: npm run extension:compile
+
+      - name: Package extension
+        run: npm run extension:package

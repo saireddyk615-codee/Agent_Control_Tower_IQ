@@ -26,5 +26,15 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    ".next",
+    "node_modules",
+    "dist",
+    "out",
+    "coverage",
+    "test-results",
+    "playwright-report",
+    "vscode-extension",
+    "vscode-extension/**"
+  ]
 }

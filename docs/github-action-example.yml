@@ -1,0 +1,20 @@
+# Demo template only. Review permissions, dependencies, output handling, and security controls before production use.
+name: SecureGuard-LM IQ Security Courtroom
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  secureguard-review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run SecureGuard-LM IQ CLI
+        run: |
+          npm install
+          npm run --silent secureguard -- scan ./data/demo/vulnerable-node-express.js --sarif > secureguard-results.sarif.json
+
+      - name: Upload SARIF preview
+        run: |
+          echo "SARIF upload would happen here in production."

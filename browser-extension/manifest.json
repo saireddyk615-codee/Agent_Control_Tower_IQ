@@ -1,0 +1,30 @@
+{
+  "manifest_version": 3,
+  "name": "SecureGuard-LM IQ Browser Companion",
+  "version": "0.1.0",
+  "description": "Send selected code from browser pages to SecureGuard-LM IQ for policy-guided secure review.",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage"
+  ],
+  "host_permissions": [
+    "http://localhost:3000/*"
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://github.com/*",
+        "https://gitlab.com/*",
+        "https://dev.azure.com/*",
+        "https://*.visualstudio.com/*"
+      ],
+      "js": [
+        "content.js"
+      ]
+    }
+  ]
+}

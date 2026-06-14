@@ -1,0 +1,56 @@
+{
+  "name": "agent-control-tower-iq",
+  "displayName": "Agent Watchtower",
+  "description": "Local realtime safety monitoring for AI-generated projects.",
+  "publisher": "secureguard-lm-iq",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "categories": ["Linters", "Other"],
+  "engines": { "vscode": "^1.90.0" },
+  "main": "./out/extension.js",
+  "activationEvents": [
+    "onStartupFinished",
+    "onCommand:agentWatchtower.runFullScan",
+    "onCommand:agentWatchtower.runQuickScan",
+    "onCommand:agentWatchtower.startWatch",
+    "onCommand:agentWatchtower.stopWatch",
+    "onCommand:agentWatchtower.openReport",
+    "onCommand:agentWatchtower.applySafeFixes",
+    "onCommand:agentWatchtower.installHook",
+    "onCommand:agentWatchtower.generateInstructions"
+  ],
+  "contributes": {
+    "commands": [
+      { "command": "agentWatchtower.runFullScan", "title": "Agent Watchtower: Run Full Scan" },
+      { "command": "agentWatchtower.runQuickScan", "title": "Agent Watchtower: Run Quick Scan" },
+      { "command": "agentWatchtower.startWatch", "title": "Agent Watchtower: Start Realtime Watch" },
+      { "command": "agentWatchtower.stopWatch", "title": "Agent Watchtower: Stop Realtime Watch" },
+      { "command": "agentWatchtower.openReport", "title": "Agent Watchtower: Open Latest Report" },
+      { "command": "agentWatchtower.applySafeFixes", "title": "Agent Watchtower: Apply Safe Fixes" },
+      { "command": "agentWatchtower.installHook", "title": "Agent Watchtower: Install Pre-Commit Gate" },
+      { "command": "agentWatchtower.generateInstructions", "title": "Agent Watchtower: Generate Agent Instructions" }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        { "id": "agentWatchtower", "title": "Agent Watchtower", "icon": "media/watchtower.svg" }
+      ]
+    },
+    "views": {
+      "agentWatchtower": [
+        { "id": "agentWatchtower.results", "name": "Watchtower Results" }
+      ]
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package --allow-missing-repository"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.90.0",
+    "typescript": "^5.0.0",
+    "@vscode/vsce": "^3.6.0"
+  }
+}

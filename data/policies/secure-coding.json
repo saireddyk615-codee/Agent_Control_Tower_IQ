@@ -1,0 +1,14 @@
+[
+  {
+    "id": "SG-SQL-001",
+    "title": "Use parameterized database queries",
+    "summary": "Untrusted input must never be concatenated into a database query.",
+    "recommendation": "Use parameterized queries or prepared statements for every untrusted value."
+  },
+  {
+    "id": "SG-LOG-001",
+    "title": "Keep secrets out of logs",
+    "summary": "Credentials, tokens, and sensitive personal data must not be written to application logs.",
+    "recommendation": "Redact sensitive values and log only the minimum operational context."
+  }
+]

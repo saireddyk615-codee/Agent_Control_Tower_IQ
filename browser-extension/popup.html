@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SecureGuard-LM IQ Browser Companion</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main>
+      <div class="brand-row">
+        <span class="logo">SG</span>
+        <div>
+          <h1>SecureGuard-LM IQ</h1>
+          <p class="subtitle">Browser Companion</p>
+        </div>
+      </div>
+
+      <section class="card">
+        <p class="eyebrow">Selected-code review</p>
+        <p class="description">
+          Send the code you selected on this page into your local policy-guided security review.
+        </p>
+        <button class="primary" id="review-selected" type="button">Review Selected Code</button>
+        <button class="secondary" id="open-secureguard" type="button">Open SecureGuard</button>
+        <p aria-live="polite" class="status" id="status"></p>
+      </section>
+
+      <p class="safety">
+        Only selected text is sent to your local SecureGuard app. Do not select confidential code.
+      </p>
+    </main>
+    <script src="popup.js"></script>
+  </body>
+</html>

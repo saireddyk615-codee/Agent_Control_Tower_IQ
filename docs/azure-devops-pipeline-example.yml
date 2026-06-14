@@ -1,0 +1,14 @@
+# Demo template only. Review permissions, dependencies, output handling, and security controls before production use.
+trigger:
+  branches:
+    include:
+      - main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+  - script: |
+      npm install
+      npm run --silent secureguard -- scan ./data/demo/vulnerable-node-express.js --json
+    displayName: Run SecureGuard-LM IQ Security Courtroom

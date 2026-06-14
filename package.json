@@ -1,0 +1,47 @@
+{
+  "name": "secureguard-lm-iq",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "dev:clean": "next dev -p 3000",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "test": "node --test --experimental-strip-types test/*.test.mjs",
+    "secureguard": "node cli/secureguard-cli.mjs",
+    "watchtower": "node cli/watchtower.mjs",
+    "extension:install": "cd vscode-extension && npm install",
+    "extension:compile": "cd vscode-extension && npm run compile",
+    "extension": "npm run extension:compile",
+    "extension:package": "cd vscode-extension && npm run package",
+    "live:test": "node scripts/live-watchtower-test.mjs",
+    "ui:doctor": "node scripts/ui-doctor.mjs",
+    "session:doctor": "node scripts/session-doctor.mjs",
+    "test:e2e": "playwright test",
+    "test:e2e:headed": "playwright test --headed"
+  },
+  "dependencies": {
+    "chokidar": "^5.0.0",
+    "next": "16.2.9",
+    "pdfkit": "^0.19.1",
+    "react": "19.2.7",
+    "react-dom": "19.2.7"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.60.0",
+    "@tailwindcss/postcss": "4.3.0",
+    "@types/node": "25.9.2",
+    "@types/pdfkit": "^0.17.6",
+    "@types/react": "19.2.17",
+    "@types/react-dom": "19.2.3",
+    "eslint": "9.39.4",
+    "eslint-config-next": "16.2.9",
+    "tailwindcss": "4.3.0",
+    "typescript": "6.0.3"
+  },
+  "overrides": {
+    "postcss": "8.5.15"
+  }
+}

@@ -1,0 +1,39 @@
+# dependencies
+/node_modules
+/vscode-extension/node_modules/
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+/test-results/
+
+# local
+.DS_Store
+*.pem
+/.idea/
+/.vscode/
+/.agent-control-tower/
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# environment
+.env*
+!.env.example
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# generated local reports and packages
+/LIVE_TEST_REPORT.md
+/LIVE_TEST_RESULTS.json
+/PROJECT_RISK_COMPARISON_REPORT.json
+/PROJECT_RISK_COMPARISON_REPORT.md
+/vscode-extension/*.vsix

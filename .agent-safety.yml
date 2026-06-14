@@ -1,0 +1,9 @@
+version: 1
+project: SecureGuard-LM IQ
+default_mode: deny
+risk_threshold: 70
+blocked_tools:
+  - shell
+  - deploy
+  - publish
+  - credential-access

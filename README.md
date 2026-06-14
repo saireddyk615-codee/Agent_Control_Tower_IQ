@@ -1,289 +1,243 @@
-# Agent Control Tower IQ / SecureGuard-LM IQ
+# Agent Control Tower IQ
+### Foundry IQ Watchtower for AI-Generated Projects
 
-## One-line Pitch
+**One-line pitch:** A Foundry IQ-ready Watchtower for AI-generated projects that scans repo risks, agent configs, diffs, secrets, outputs, and code security issues, then gives developers one final decision, recommended fixes, safe-fix approval, patch previews, and PDF reports.
 
-Agent Control Tower IQ is a safety operating system for AI agents, with SecureGuard-LM IQ code security review as a secondary capability.
+---
 
 ## Problem
 
-AI-assisted coding accelerates development, but insecure code can also reach production faster. Teams need security review that is explainable, policy-grounded, and safe for human approval.
+AI-assisted coding accelerates delivery, but insecure or misconfigured AI-generated projects can reach production faster than teams can review them. Developers need a structured final-review layer that is explainable, policy-grounded, and safe for human approval — not just another alert scanner.
 
 ## Solution
 
-Agent Control Tower IQ governs context, tools, memory, diffs, final output, and multi-agent handoffs across the agent lifecycle.
+Agent Control Tower IQ provides a **local-first Watchtower** that performs one consolidated scan across all major risk surfaces of any project, produces a single decision and risk score, and gives developers a clear fix plan with safe auto-fix approval and patch previews for manual-review changes.
 
-## Agent Safety Studio
+**No source code is uploaded. No project code is executed. No Azure credentials are required for the demo.**
 
-Agent Control Tower IQ includes five modes:
+---
 
-1. **Agent Preflight** — creates a safe mission plan before the agent runs.
-2. **Repo Guardian** — generates repo-level safety files like `.agent-safety.yml`.
-3. **Agent Diff Guard** — checks agent-generated diffs for scope creep and risky side effects.
-4. **Output Firewall** — scans final agent output before publishing or submitting.
-5. **Safe Handoff Builder** — controls what one agent can safely pass to another agent.
+## Final User Workflow
 
-**Make sure AI agents see only what they should, do only what they are allowed to do, and submit only safe output.**
+```
+1. Open /watchtower in the web portal
+2. Enter your project repo path (or click Load Demo Project)
+3. Select checks (Quick Scan, Full Scan, or individual checks)
+4. Click Run Scan
+5. Review the decision, risk score, findings, and recommended fixes
+6. Select safe fixes → click Fix Selected Safe Issues
+7. Generate Patch for Review (manual-review changes — no auto-apply)
+8. Download PDF Report (evidence pack)
+9. Re-scan to verify fixes reduced risk
+10. Navigate to Reports, Compare, IDE Extension with session preserved
+```
 
-All studio simulations are local and synthetic. They do not execute user code, agent tools, shell
-commands, deployments, or external API calls.
-
-## What Makes It Unique
-
-SecureGuard-LM IQ does not stop at vulnerability detection. It creates:
-
-- Security Findings
-- Policy Evidence
-- Safe Attack Replay
-- Fix Diff
-- Traceability Matrix
-- Secure Merge Passport
-- GitHub-style PR Review Comment
-- CI/CD Security Gate Result
-- SARIF-style Export Preview
-- Compliance Mapping
-
-**From vulnerability detection to policy-grounded merge verdict.**
-
-## Unique Concept: Security Courtroom
-
-SecureGuard-LM IQ turns secure code review into a multi-agent courtroom workflow. Risky code is
-placed on trial before merge: agents present the risk argument, remediation argument, policy
-evidence, compliance impact, and final release-gate decision.
-
-This makes the reasoning chain easy to review and distinguishes SecureGuard-LM IQ from scanners
-that stop after producing alerts.
-
-## Multi-Agent Roles
-
-- **Red Team Agent:** Presents a safe simulated risk argument showing how a finding could be abused.
-- **Blue Team Agent:** Presents the fix argument and explains how remediation reduces risk.
-- **Policy Judge Agent:** Grounds the decision in Foundry IQ-compatible secure coding policy evidence.
-- **Compliance Clerk Agent:** Maps findings to OWASP, CWE, NIST SSDF, SOC 2 / Secure SDLC, and ISO 27001.
-- **Release Gate Agent:** Produces the final merge verdict: Approve with caution, Review required, or Block until fixed.
-
-## Market-Language Optimized Security Review
-
-SecureGuard-LM IQ does not claim to support every programming language perfectly. Instead, it
-focuses on the languages most common in modern application and enterprise development.
-
-Primary coverage:
-
-- JavaScript / TypeScript
-- Python
-- Java
-- C#
-- Go
-
-Secondary coverage:
-
-- PHP
-- C / C++
-- Rust
-
-The JavaScript/Node.js demo includes the richest scan-to-fix workflow. Other market languages
-support vulnerability detection, policy evidence, Security Courtroom reasoning, remediation
-guidance, and Merge Verdict Pack artifacts.
-
-**Market-language optimized through modular security rule packs.**
-
-## Microsoft IQ Integration
-
-### Mock Mode
-
-- Default and fully demoable locally
-- Uses `MockFoundryIQProvider` and synthetic secure coding policy documents
-- Requires no Azure credentials
-- Clearly identified as mock retrieval in the UI and scan response
-
-### Optional Real Mode
-
-- Uses `FoundryIQProvider`
-- Calls an Azure AI Search / Microsoft Foundry IQ knowledge base retrieve endpoint
-- Requires a server-side Azure Search endpoint, API key, and knowledge base name
-- Safely falls back to mock mode when configuration is incomplete
-- Never exposes the Azure Search API key to browser code
-
-See [`docs/real-foundry-iq-setup.md`](docs/real-foundry-iq-setup.md).
-
-## Merge Verdict Pack
-
-The Merge Verdict Pack turns the courtroom workflow into merge-ready artifacts:
-
-- Final merge verdict and reason
-- Risk score before and after
-- Blocking issues and human-review decision
-- Policy evidence and compliance mapping
-- Security Proof Pack and Secure Merge Passport
-- GitHub-style PR Review Comment
-- CI/CD Security Gate Result
-- SARIF-style Export Preview
-- Reviewer checklist
-
-## Merge Verdict Artifact Pack
-
-SecureGuard-LM IQ generates professional security artifacts that can be used in developer
-workflows:
-
-- GitHub-style PR review comment
-- SARIF-style preview
-- CI/CD gate summary
-- Reviewer checklist
-- Compliance evidence summary
-- Security Courtroom summary
-
-**SecureGuard-LM IQ turns security findings into merge-ready decision artifacts.**
-
-The dashboard can copy each text artifact and download the SARIF-style preview as
-`secureguard-results.sarif.json`. The SARIF output is a demo preview; future integrations can
-upload it to GitHub Advanced Security or Azure DevOps pipelines.
-
-## CI/CD and DevSecOps Integration
-
-- Run the local CLI with `npm run secureguard -- scan <file>`
-- Export JSON with `--json`
-- Export SARIF-style JSON with `--sarif`
-- Start from the demo [GitHub Actions template](docs/github-action-example.yml)
-- Start from the demo [Azure DevOps pipeline template](docs/azure-devops-pipeline-example.yml)
-- Future versions can integrate directly with GitHub Advanced Security and Azure DevOps
-
-The provided workflow files are demo templates and require production hardening, permission review,
-and secure artifact handling.
+---
 
 ## Architecture
 
-```mermaid
-flowchart LR
-    A["Code Input"] --> B["Red Team Agent"]
-    B --> C["Blue Team Agent"]
-    C --> D["Policy Judge Agent"]
-    D --> E["Compliance Clerk Agent"]
-    E --> F["Release Gate Agent"]
-    F --> G["Security Proof Pack"]
-    G --> H["Merge Verdict Pack"]
+```
+web portal (Next.js)
+├── /watchtower         — scan, review, fix, PDF export
+├── /reports            — load latest report, re-export PDF
+├── /compare            — multi-project risk comparison
+├── /integrations       — VS Code extension + CLI docs
+└── /submission         — project summary + demo script
+
+API routes (Next.js app router, Node.js runtime)
+├── /api/watchtower/ui-scan          — run full scan
+├── /api/watchtower/apply-fixes      — apply selected safe fixes
+├── /api/watchtower/generate-patch   — patch preview for manual review
+├── /api/watchtower/pdf-report       — generate + stream PDF
+├── /api/watchtower/latest-report    — load saved JSON report
+├── /api/watchtower/compare          — compare multiple projects
+└── /api/foundry-iq/enrich          — Foundry IQ policy enrichment (Azure or mock)
+
+scan engine (lib/watchtower/)
+├── watchtowerEngine.ts      — orchestrates all checks
+├── safeFixEngine.ts         — applies approved safe fixes only
+├── patchPreview.ts          — generates patch for manual review
+├── pathValidation.ts        — normalize + validate repo paths
+├── projectComparison.ts     — multi-project risk comparison
+└── watchtowerUserReport.ts  — user-facing report format
+
+Foundry IQ enrichment layer (lib/foundry-iq/)
+├── types.ts         — shared enrichment types
+├── client.ts        — Azure AI Search REST client (api-version 2025-09-01)
+├── mockKnowledge.ts — keyword-based local policy fallback
+└── enrichFinding.ts — tries Azure, falls back to mock if unconfigured
+
+Legacy IQ layer (lib/iq/)
+├── MockFoundryIQProvider.ts — original mock provider
+├── FoundryIQProvider.ts     — legacy Azure provider
+└── getIQProvider.ts         — environment-based provider selection
+
+reports (lib/reports/)
+└── watchtowerPdfReport.ts   — PDFKit-based evidence report
+
+VS Code extension (vscode-extension/)
+├── extension.ts     — activation, commands, Problems panel
+├── diagnostics.ts   — inline findings as VS Code diagnostics
+├── treeView.ts      — findings tree view
+└── statusBar.ts     — scan status bar item
+
+CLI (cli/)
+└── watchtower.mjs   — scan, watch, apply-fixes from terminal
 ```
 
-The Next.js App Router UI calls server-side API routes under `app/api`. Scanner, IQ provider, fixer, and report modules remain isolated under `lib`. The default mock provider is deterministic; the optional real provider is isolated behind the same `IQProvider` interface.
+---
 
-## Demo Walkthrough
+## Screenshots
 
-The `/scan` page presents a four-step judge-friendly flow:
+> _Run `npm run dev` and open `http://localhost:3000/watchtower` to see the live portal._
 
-1. **Select and load a market-language demo**
-2. **Run Security Courtroom**
-3. **Generate Safer Fix**
-4. **Create Merge Verdict Pack**
-5. **Generate DevSecOps Artifacts**
+---
 
-The JavaScript demo detects five supported vulnerability patterns, retrieves citations, reduces
-modeled risk, proves remediation, and creates reviewer-ready artifacts. Additional deterministic
-rule packs cover Python, Java, C#, Go, PHP, C/C++, and Rust.
-
-## Safety
-
-- Uses synthetic vulnerable code and synthetic policies by default
-- Executes no real attacks
-- Does not upload or execute reviewed code
-- Do not submit confidential or private source code
-- Does not auto-merge generated fixes
-- Requires developer review before production use
-- Falls back safely when real Microsoft IQ configuration is incomplete
-
-## Browser Companion Extension
-
-SecureGuard-LM IQ includes an optional Manifest V3 browser companion extension for desktop Chromium
-browsers. It lets developers select code on GitHub, GitLab, or Azure DevOps pages and send only the
-selected text into the local SecureGuard scan workflow.
-
-- Works on desktop Chromium browsers such as Chrome, Edge, and Brave
-- Not intended for mobile browsers
-- Does not collect credentials
-- Does not scrape a whole page when no text is selected
-- Does not send data to external services
-- Opens the local demo at `http://localhost:3000/scan`
-
-Local installation instructions are in [`docs/browser-extension.md`](docs/browser-extension.md).
-
-## VS Code Extension
-
-The local **Agent Control Tower IQ** VS Code extension runs Agent Watchtower against the currently
-open workspace. It publishes findings to the Problems panel and Output channel, updates a status bar
-indicator, shows a local report webview, and supports debounced realtime quick scans.
+## Setup
 
 ```bash
-npm run extension:install
-npm run extension:compile
-```
-
-Open `vscode-extension` in VS Code and press F5 to launch the Extension Development Host. Setup and
-commands are documented in [`docs/IDE_EXTENSION_SETUP.md`](docs/IDE_EXTENSION_SETUP.md).
-
-## For Judges
-
-No Azure keys are needed for the default demo.
-
-```bash
+# Install dependencies
 npm install
+
+# Start web portal
 npm run dev
+
+# Open in browser
+open http://localhost:3000/watchtower
 ```
 
-Open [http://localhost:3000/scan](http://localhost:3000/scan), then complete the four demo steps.
+### Foundry IQ Integration
 
-Quality checks:
+This MVP includes a Foundry IQ integration layer with mock fallback. The default demo runs locally without Azure credentials, while the architecture supports real Foundry IQ / Azure AI Search knowledge retrieval when configured. The scanner does not upload source code by default.
+
+Copy `.env.example` to `.env.local` and set:
+```bash
+FOUNDRY_IQ_MODE=azure
+AZURE_AI_SEARCH_ENDPOINT=https://<your-resource>.search.windows.net
+AZURE_AI_SEARCH_INDEX=agent-security-policies
+AZURE_AI_SEARCH_API_KEY=<query-key>
+AZURE_AI_SEARCH_KNOWLEDGE_BASE=agent-control-tower-security-kb
+```
+
+Leave `FOUNDRY_IQ_MODE=mock` (the default) to run without any Azure credentials.
+
+---
+
+## CLI Usage
 
 ```bash
-npm run lint
-npm run build
+# Quick scan (repo safety + secrets + git diff)
+npm run watchtower -- scan --repo /path/to/project
+
+# Full scan (all checks)
+npm run watchtower -- scan --repo /path/to/project --checks full
+
+# Realtime watch mode
+npm run watchtower -- watch --repo /path/to/project
+
+# Apply approved safe fixes
+npm run watchtower -- apply-fixes --repo /path/to/project
+
+# Live integration test
+npm run live:test
 ```
 
-CLI examples:
+---
+
+## Web Portal Usage
+
+1. `npm run dev` → open `http://localhost:3000`
+2. Navigate to **Watchtower**
+3. Enter repo path or click **Load Demo Project**
+4. Select preset (Quick / Full) or individual checks
+5. Click **Run Scan**
+6. Review findings and fix plan
+7. Select safe fixes → **Fix Selected Safe Issues**
+8. **Generate Patch for Review** for manual-review items
+9. **Download PDF Report**
+10. **Re-scan** to confirm
+
+Session is preserved across Watchtower → Reports → Compare → IDE Extension navigation and browser refresh. Click **Clear Session** to reset UI state only.
+
+---
+
+## VS Code Extension Usage
+
+### Option A — Extension Development Host (F5)
 
 ```bash
-npm run secureguard -- scan ./data/demo/vulnerable-node-express.js
-npm run --silent secureguard -- scan ./data/demo/vulnerable-node-express.js --json
-npm run --silent secureguard -- scan ./data/demo/vulnerable-node-express.js --sarif
+cd vscode-extension
+npm install
+npm run compile
+# Press F5 in VS Code to open Extension Development Host
 ```
 
-Judge-facing pages:
+### Option B — Install from VSIX
 
-- `/` — Agent Control Tower IQ overview
-- `/control-tower` — primary Agent Preflight and lifecycle control plane
-- `/agent-safety` — runnable Agent Preflight, safety artifacts, and digital-twin simulation
-- `/repo-guardian` — repo readiness and safety-file generation
-- `/diff-guard` — agent-generated diff side-effect analysis
-- `/output-firewall` — final-output scan and sanitization
-- `/safe-handoff` — multi-agent context and tool boundary builder
-- `/scan` — full four-step demo
-- `/report` — Merge Verdict Pack preview
-- `/submission` — copy-ready submission package
-
-## Environment
-
-```env
-NEXT_PUBLIC_IQ_MODE=mock
-
-# Optional real Azure AI Search / Foundry IQ mode
-AZURE_SEARCH_ENDPOINT=
-AZURE_SEARCH_API_KEY=
-AZURE_SEARCH_KNOWLEDGE_BASE_NAME=
-AZURE_SEARCH_API_VERSION=2025-11-01-preview
+```bash
+cd vscode-extension
+npm run package          # generates .vsix
+# In VS Code: Extensions → Install from VSIX → select the generated file
 ```
 
-See `.env.example` for optional Foundry metadata.
+### Commands
 
-## Future Roadmap
+| Command | Description |
+|---|---|
+| `Agent Watchtower: Run Quick Scan` | Runs repo safety + secrets + diff checks |
+| `Agent Watchtower: Run Full Scan` | Runs all checks |
+| `Agent Watchtower: Start Realtime Watch` | Watches for file changes |
+| `Agent Watchtower: Stop Watch` | Stops watch mode |
+| `Agent Watchtower: Apply Safe Fixes` | Applies approved safe fixes |
+| `Agent Watchtower: Open Latest Report` | Opens PDF/JSON in editor |
 
-- Deeper Microsoft Foundry IQ and Foundry Agent Service integration
-- GitHub PR comments
-- Azure DevOps PR checks
-- SARIF file download
-- Deeper framework-specific rules for each market-language pack
-- Enterprise policy packs
+Findings appear in the **Problems panel** and **Watchtower** tree view. Status bar shows scan state.
 
-## Submission Assets
+---
 
-- [Architecture documentation](docs/architecture.md)
-- [Real Foundry IQ setup](docs/real-foundry-iq-setup.md)
-- [Browser companion setup](docs/browser-extension.md)
-- [Two-minute demo video script](docs/demo-video-script.md)
-- [Final submission checklist](docs/final-submission-checklist.md)
-- [MIT License](LICENSE)
+## Report Outputs
+
+After a scan, reports are written to `.agent-control-tower/` inside the project:
+
+| File | Description |
+|---|---|
+| `watchtower-latest.json` | Full scan result (machine-readable) |
+| `WATCHTOWER_REPORT.md` | Human-readable Markdown report |
+| `WATCHTOWER_SECURITY_REPORT.pdf` | PDF evidence pack |
+| `WATCHTOWER_FIX_PLAN.md` | Recommended fix plan |
+| `watchtower-suggested-fixes.patch` | Patch preview for manual review |
+
+---
+
+## Tests
+
+```bash
+npm test          # 28 unit tests — all pass
+npm run lint      # ESLint — clean
+npm run build     # Next.js production build
+npm run live:test # Live integration test (requires target projects)
+npm run ui:doctor # Portal health check (requires npm run dev)
+```
+
+---
+
+## Foundry IQ Disclosure
+
+This MVP includes a Foundry IQ integration layer with mock fallback. The default demo runs without Azure credentials, while the architecture supports real Foundry IQ / Azure AI Search retrieval when configured via `.env.local`. The scanner does not upload source code by default. All policy evidence in the demo is synthetic and local.
+
+---
+
+## Limitations
+
+- Static local analysis only — no source upload, no runtime execution of scanned projects.
+- Safe auto-fixes are limited to security file generation and low-risk configuration changes.
+- Risky code changes always require human review via patch preview — never auto-applied.
+- Foundry IQ retrieval uses mock policy documents in the default demo.
+- The VS Code VSIX path may differ depending on npm package version.
+- Human judgment remains the final gate before any production change.
+
+---
+
+## License
+
+MIT — see [LICENSE](LICENSE)

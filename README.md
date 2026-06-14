@@ -108,11 +108,27 @@ npm run dev
 open http://localhost:3000/watchtower
 ```
 
-### Foundry IQ Integration
+## Foundry IQ Integration
 
-This MVP includes a Foundry IQ integration layer with mock fallback. The default demo runs locally without Azure credentials, while the architecture supports real Foundry IQ / Azure AI Search knowledge retrieval when configured. The scanner does not upload source code by default.
+Agent Control Tower IQ integrates Microsoft IQ through a **Foundry IQ-compatible knowledge grounding layer backed by Azure AI Search**.
 
-Copy `.env.example` to `.env.local` and set:
+The Watchtower scanner runs locally and detects repo, code, secret, workflow, and agent-configuration risks. When the user clicks **Enrich with Foundry IQ**, the app sends only normalized finding metadata to the IQ layer, including finding title, severity, category, file path, short evidence snippet, and recommended fix. It does **not** upload full source code by default.
+
+The project supports two modes:
+
+* **Mock IQ Mode** — default local fallback with no Azure credentials required.
+* **Azure IQ Mode** — connects to Azure AI Search for policy-backed recommendations and citations.
+
+Live Microsoft IQ verification:
+
+* Search service: `actiq-search-615`
+* Index: `agent-security-policies`
+* API route: `/api/foundry-iq/enrich`
+* Verified result: `mode: "azure"`, `fallbackUsed: false`
+* Citations returned: `secrets-policy.md`, `safe-fix-policy.md`, `agent-safety-policy.md`
+
+To enable Azure IQ Mode, copy `.env.example` to `.env.local` and set:
+
 ```bash
 FOUNDRY_IQ_MODE=azure
 AZURE_AI_SEARCH_ENDPOINT=https://<your-resource>.search.windows.net
@@ -121,16 +137,8 @@ AZURE_AI_SEARCH_API_KEY=<query-key>
 AZURE_AI_SEARCH_KNOWLEDGE_BASE=agent-control-tower-security-kb
 ```
 
-Leave `FOUNDRY_IQ_MODE=mock` (the default) to run without any Azure credentials.
+Do not commit `.env.local` or API keys.
 
-## Live Microsoft IQ Verification
-
-- Search service: `actiq-search-615`
-- Index: `agent-security-policies`
-- API route: `/api/foundry-iq/enrich`
-- Verified result: `mode: azure`, `fallbackUsed: false`
-- Verified citations: `secrets-policy.md`, `safe-fix-policy.md`, `agent-safety-policy.md`
-- No API keys are shown in source, logs, UI, reports, or tests.
 
 ---
 

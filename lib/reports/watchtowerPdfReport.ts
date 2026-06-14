@@ -3,12 +3,14 @@ import { join } from "node:path";
 import { createWriteStream } from "node:fs";
 import PDFDocument from "pdfkit";
 import type { WatchtowerUserReport } from "../../types/security.ts";
+import type { FindingEnrichment } from "../foundry-iq/types.ts";
 
 export async function generateWatchtowerPdfReport(input: {
   projectName?: string;
   repoPath: string;
   result: WatchtowerUserReport;
   outputDir: string;
+  foundryIqEvidence?: { mode?: "azure" | "mock"; enrichments: FindingEnrichment[] };
 }): Promise<{ pdfPath: string; fileName: string }> {
   await mkdir(input.outputDir, { recursive: true });
   const fileName = "WATCHTOWER_SECURITY_REPORT.pdf";
@@ -55,6 +57,18 @@ export async function generateWatchtowerPdfReport(input: {
   if (!input.result.fixPlan.some((fix) => !fix.humanApprovalRequired)) document.fontSize(9).text("No safe auto-fixes are currently available.");
   heading("Manual Review Fixes");
   input.result.fixPlan.filter((fix) => fix.humanApprovalRequired).forEach((fix) => document.fontSize(9).text(`${fix.file ?? "repository"}: ${fix.recommendedFix}`));
+  if (input.foundryIqEvidence?.enrichments.length) {
+    heading("Foundry IQ Evidence");
+    row("Mode", input.foundryIqEvidence.mode ?? "unknown");
+    input.foundryIqEvidence.enrichments.forEach((enrichment) => {
+      document.fontSize(10).fillColor("#0f172a").text(`Finding ${enrichment.findingId}: ${enrichment.confidence} confidence`);
+      row("IQ recommendation", enrichment.recommendation);
+      enrichment.citations.forEach((citation) => {
+        row("Citation", `${citation.source}${citation.score !== undefined ? ` (score ${citation.score.toFixed(2)})` : ""} — ${citation.title}`);
+      });
+      document.moveDown(0.4);
+    });
+  }
   heading("Generated Artifacts");
   Object.values(input.result.reportPaths).forEach((path) => document.fontSize(8).text(path));
   input.result.artifacts.forEach((artifact) => document.fontSize(8).text(`${artifact.path}: ${artifact.description}`));

@@ -6,6 +6,45 @@ body { min-height: 100vh; margin: 0; background: #f8fafc; color: #0f172a; font-f
 button, input, select, textarea { font: inherit; }
 a { color: inherit; text-decoration: none; }
 
+/* ── Watchtower animations ── */
+@keyframes wt-scan-bar {
+  0%   { width: 0%;   opacity: 1; }
+  80%  { width: 92%;  opacity: 1; }
+  100% { width: 100%; opacity: 0; }
+}
+@keyframes wt-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.42; }
+}
+@keyframes wt-fade-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes wt-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes wt-score-fill {
+  from { stroke-dashoffset: 264; }
+  to   { stroke-dashoffset: var(--score-offset, 264); }
+}
+@keyframes wt-shimmer {
+  0%   { background-position: -600px 0; }
+  100% { background-position: 600px 0; }
+}
+
+.wt-scan-bar  { animation: wt-scan-bar 20s cubic-bezier(.08,.5,.55,1) forwards; }
+.wt-pulse     { animation: wt-pulse 1.35s ease-in-out infinite; }
+.wt-fade-up   { animation: wt-fade-up 0.42s ease both; }
+.wt-spin      { animation: wt-spin 1.05s linear infinite; }
+.wt-score-arc { animation: wt-score-fill 1.1s cubic-bezier(.4,0,.2,1) forwards; }
+.wt-shimmer   {
+  background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+  background-size: 600px 100%;
+  animation: wt-shimmer 1.6s infinite;
+}
+
+/* ── Form controls ── */
 .studio-input {
   width: 100%;
   border: 1px solid #cbd5e1;
@@ -15,9 +54,12 @@ a { color: inherit; text-decoration: none; }
   color: #0f172a;
   font-size: .875rem;
   outline: none;
+  transition: border-color .15s, box-shadow .15s;
 }
 .studio-input::placeholder, .studio-textarea::placeholder { color: #94a3b8; }
 .studio-input:focus, .studio-textarea:focus { border-color: #3b82f6; box-shadow: 0 0 0 3px #dbeafe; }
+.studio-input:disabled { background: #f8fafc; color: #94a3b8; cursor: not-allowed; }
+
 .studio-textarea {
   min-height: 220px;
   width: 100%;
@@ -32,7 +74,10 @@ a { color: inherit; text-decoration: none; }
   line-height: 1.5rem;
   outline: none;
   text-align: left;
+  transition: border-color .15s, box-shadow .15s;
 }
+
+/* ── Code preview ── */
 .studio-preview {
   max-height: 24rem;
   overflow: auto;
@@ -48,21 +93,62 @@ a { color: inherit; text-decoration: none; }
   line-height: 1.35rem;
   text-align: left;
 }
-.panel { border: 1px solid #e2e8f0; background: white; box-shadow: 0 1px 2px rgba(15, 23, 42, .05); backdrop-filter: none; }
-.studio-workspace-left > .panel { border: 0; padding: 0; box-shadow: none; }
+
+/* ── Premium card hover ── */
+.wt-card {
+  border: 1px solid #e2e8f0;
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 1px 3px rgba(15,23,42,.07);
+  transition: box-shadow .2s, transform .2s;
+}
+.wt-card:hover { box-shadow: 0 4px 14px rgba(15,23,42,.1); transform: translateY(-1px); }
+
+/* ── Command code block ── */
+.wt-cmd {
+  background: #0f172a;
+  color: #e2e8f0;
+  border-radius: .5rem;
+  padding: .75rem 1rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: .8rem;
+  line-height: 1.6;
+  overflow-x: auto;
+  white-space: pre;
+}
+
+/* ── Panel / shell overrides ── */
+.panel { border: 1px solid #e2e8f0; background: white; box-shadow: 0 1px 2px rgba(15,23,42,.05); }
+.studio-workspace-left > .panel  { border: 0; padding: 0; box-shadow: none; }
 .studio-workspace-right > .panel { box-shadow: none; }
-.saas-shell details { border-color: #e2e8f0; background: white; box-shadow: none; }
-.saas-shell summary { color: #0f172a; }
-.saas-shell .text-white { color: #0f172a; }
-.saas-shell .text-slate-200, .saas-shell .text-slate-300 { color: #334155; }
-.saas-shell .text-slate-400 { color: #64748b; }
-.saas-shell .text-slate-500, .saas-shell .text-slate-600 { color: #64748b; }
-.saas-shell .text-blue-100, .saas-shell .text-blue-200, .saas-shell .text-blue-300 { color: #1d4ed8; }
-.saas-shell .text-amber-100, .saas-shell .text-amber-200, .saas-shell .text-amber-300 { color: #92400e; }
-.saas-shell .text-emerald-100, .saas-shell .text-emerald-200, .saas-shell .text-emerald-300 { color: #047857; }
-.saas-shell .text-red-100, .saas-shell .text-red-200, .saas-shell .text-red-300 { color: #b91c1c; }
-.saas-shell .text-violet-200, .saas-shell .text-violet-300 { color: #6d28d9; }
-.saas-shell .border-white\/10, .saas-shell .border-white\/15 { border-color: #e2e8f0; }
-.saas-shell .bg-black\/20, .saas-shell .bg-black\/15, .saas-shell .bg-white\/5, .saas-shell .bg-white\/\[0\.025\] { background: #f8fafc; }
+.saas-shell details  { border-color: #e2e8f0; background: white; box-shadow: none; }
+.saas-shell summary  { color: #0f172a; }
+.saas-shell .text-white              { color: #0f172a; }
+.saas-shell .text-slate-200,
+.saas-shell .text-slate-300          { color: #334155; }
+.saas-shell .text-slate-400          { color: #64748b; }
+.saas-shell .text-slate-500,
+.saas-shell .text-slate-600          { color: #64748b; }
+.saas-shell .text-blue-100,
+.saas-shell .text-blue-200,
+.saas-shell .text-blue-300           { color: #1d4ed8; }
+.saas-shell .text-amber-100,
+.saas-shell .text-amber-200,
+.saas-shell .text-amber-300          { color: #92400e; }
+.saas-shell .text-emerald-100,
+.saas-shell .text-emerald-200,
+.saas-shell .text-emerald-300        { color: #047857; }
+.saas-shell .text-red-100,
+.saas-shell .text-red-200,
+.saas-shell .text-red-300            { color: #b91c1c; }
+.saas-shell .text-violet-200,
+.saas-shell .text-violet-300         { color: #6d28d9; }
+.saas-shell .border-white\/10,
+.saas-shell .border-white\/15        { border-color: #e2e8f0; }
+.saas-shell .bg-black\/20,
+.saas-shell .bg-black\/15,
+.saas-shell .bg-white\/5,
+.saas-shell .bg-white\/\[0\.025\]    { background: #f8fafc; }
 .saas-shell pre { text-align: left; }
+
 ::selection { background: #bfdbfe; color: #0f172a; }

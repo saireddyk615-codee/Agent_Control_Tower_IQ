@@ -195,9 +195,11 @@ test("risk normalization ignores per-project Watchtower IDs", () => {
   assert.deepEqual(normalizeRiskKey({ id: "WT-001", ...base }), normalizeRiskKey({ id: "WT-999", ...base }));
 });
 
-test("repo path normalization accepts spaces, wrapping quotes, and home expansion", () => {
-  const quoted = ` "/Users/shivareddy/IdeaProjects/Workout App" `;
-  assert.equal(normalizeRepoPath(quoted), "/Users/shivareddy/IdeaProjects/Workout App");
+test("repo path normalization accepts spaces, wrapping quotes, and home expansion", async () => {
+  // Use a path with a space that is guaranteed to exist on any OS
+  const existingWithSpace = await mkdtemp(join(tmpdir(), "watchtower test "));
+  const quoted = ` "${existingWithSpace}" `;
+  assert.equal(normalizeRepoPath(quoted), existingWithSpace);
   assert.equal(validateRepoDirectory(quoted).ok, true);
   assert.match(normalizeRepoPath("~/IdeaProjects/Workout App"), /\/IdeaProjects\/Workout App$/);
   assert.equal(validateRepoDirectory("/bad/path").ok, false);

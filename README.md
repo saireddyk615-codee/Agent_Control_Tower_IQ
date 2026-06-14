@@ -13,6 +13,8 @@ AI-assisted coding accelerates delivery, but insecure or misconfigured AI-genera
 
 Agent Control Tower IQ provides a **local-first Watchtower** that performs one consolidated scan across all major risk surfaces of any project, produces a single decision and risk score, and gives developers a clear fix plan with safe auto-fix approval and patch previews for manual-review changes.
 
+Agent Control Tower IQ integrates Microsoft IQ through a Foundry IQ-compatible knowledge grounding layer backed by Azure AI Search. The Watchtower scanner detects repo, code, secret, workflow, and agent-configuration risks locally, then the IQ layer retrieves trusted policy guidance and citations to enrich each finding. The scanner does not upload source code by default.
+
 **No source code is uploaded. No project code is executed. No Azure credentials are required for the demo.**
 
 ---
@@ -121,6 +123,22 @@ AZURE_AI_SEARCH_KNOWLEDGE_BASE=agent-control-tower-security-kb
 
 Leave `FOUNDRY_IQ_MODE=mock` (the default) to run without any Azure credentials.
 
+## Live Microsoft IQ Verification
+
+- Search service: `actiq-search-615`
+- Index: `agent-security-policies`
+- API route: `/api/foundry-iq/enrich`
+- Verified result: `mode: azure`, `fallbackUsed: false`
+- Verified citations: `secrets-policy.md`, `safe-fix-policy.md`, `agent-safety-policy.md`
+- No API keys are shown in source, logs, UI, reports, or tests.
+
+---
+
+
+## Privacy and Local Execution Boundary
+
+Agent Control Tower IQ scans project files locally. The scanner does not upload source code, execute the scanned application, or run project scripts. Foundry IQ enrichment is optional and only sends normalized finding metadata to Azure AI Search when Azure mode is configured. Mock IQ mode runs fully locally without Azure credentials.
+
 ---
 
 ## CLI Usage
@@ -187,7 +205,7 @@ npm run package          # generates .vsix
 | `Agent Watchtower: Run Quick Scan` | Runs repo safety + secrets + diff checks |
 | `Agent Watchtower: Run Full Scan` | Runs all checks |
 | `Agent Watchtower: Start Realtime Watch` | Watches for file changes |
-| `Agent Watchtower: Stop Watch` | Stops watch mode |
+| `Agent Watchtower: Stop Realtime Watch` | Stops watch mode |
 | `Agent Watchtower: Apply Safe Fixes` | Applies approved safe fixes |
 | `Agent Watchtower: Open Latest Report` | Opens PDF/JSON in editor |
 

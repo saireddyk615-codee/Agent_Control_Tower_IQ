@@ -44,6 +44,9 @@ export async function applySelectedWatchtowerSafeFixes(repoPathValue: string, re
   const selected = new Set(fixIds.map((id) => id.replace(/^FIX-/, "")));
   const applied: { fixId: string; file: string; message: string }[] = [];
   const skipped: { fixId: string; reason: string }[] = [];
+  if (!selected.size) {
+    return { ok: false, message: "No safe auto-fixes were selected.", applied, skipped, reportPath: join(repoPath, ".agent-control-tower", "WATCHTOWER_FIX_PLAN.md") };
+  }
   for (const finding of result.findings.filter((item) => selected.has(item.id))) {
     const fixId = `FIX-${finding.id}`;
     if (!finding.safeFixAvailable) {
@@ -70,7 +73,12 @@ export async function applySelectedWatchtowerSafeFixes(repoPathValue: string, re
   await mkdir(join(repoPath, ".agent-control-tower"), { recursive: true });
   await writeFile(join(repoPath, ".agent-control-tower", "WATCHTOWER_FIX_PLAN.md"), fixPlan(result), "utf8");
   await writeFile(join(repoPath, ".agent-control-tower", "watchtower-suggested-fixes.patch"), patchPreview(result), "utf8");
-  return { applied, skipped, reportPath: join(repoPath, ".agent-control-tower", "WATCHTOWER_FIX_PLAN.md") };
+  const message = skipped.length
+    ? "Only safe auto-fixes were applied. Manual-review findings were skipped."
+    : applied.length
+      ? "Selected safe auto-fixes were applied."
+      : "No safe auto-fixes were selected.";
+  return { ok: applied.length > 0 || skipped.length > 0, message, applied, skipped, reportPath: join(repoPath, ".agent-control-tower", "WATCHTOWER_FIX_PLAN.md") };
 }
 
 export async function applyWatchtowerSafeFixes(repoPathValue: string, result: WatchtowerRunResult) {

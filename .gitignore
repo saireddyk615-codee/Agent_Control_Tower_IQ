@@ -37,3 +37,4 @@ next-env.d.ts
 /PROJECT_RISK_COMPARISON_REPORT.json
 /PROJECT_RISK_COMPARISON_REPORT.md
 /vscode-extension/*.vsix
+.env.local
